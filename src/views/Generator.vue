@@ -48,9 +48,6 @@ export default {
     ],
     generatedUrls: []
   }),
-  mounted() {
-    this.generate()
-  },
   computed: {
     user() {
       return this.$store.state.user
@@ -58,17 +55,29 @@ export default {
   },
   methods: {
     async generate() {
-      const {data: {short_id}} = await axios.post(`/shortener/generate`, {
-        "original_url": this.fullLink,
-        "user_id": this.user && this.user.id ? this.user.id : null
-      })
 
-      this.generatedUrls.unshift({
-        "original_url": this.fullLink,
-        "short_url": `${serverUrl}/${short_id}`,
-      })
 
-      this.fullLink = ""
+      try {
+        const {data: {short_id}} = await axios.post(`/shortener/generate`, {
+          "original_url": this.fullLink,
+          "user_id": this.user && this.user.id ? this.user.id : null
+        })
+        this.generatedUrls.unshift({
+          "original_url": this.fullLink,
+          "short_url": `${serverUrl}/${short_id}`,
+        })
+
+        this.fullLink = ""
+      } catch (e) {
+        if (e.response.data.errors[0].loc[0] == "original_url") {
+          this.$bvToast.toast("Некорректный URL", {
+            title: "Ошибка",
+            variant: "danger",
+            solid: true,
+            autoHideDelay: 5000,
+          })
+        }
+      }
     }
   }
 }

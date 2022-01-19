@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <b-navbar toggleable="lg" type="dark" variant="info">
+    <b-navbar toggleable="lg" type="light" variant="info">
       <b-navbar-brand to="/">pyshort</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -67,6 +67,9 @@ $body-color: #111;
 body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
+  .bg-info {
+      background-color: white !important;
+  }
 }
 
 .app-view {

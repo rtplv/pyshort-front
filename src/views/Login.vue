@@ -57,7 +57,6 @@ export default {
           solid: true,
           autoHideDelay: 5000,
         })
-
       }
     }
   }
